@@ -1,6 +1,3 @@
 <template>
-  <div>
-   Hello Medium Clone
-   <router-view />
-  </div>
+  <div>Hello Medium Clone1 <router-view /></div>
 </template>
