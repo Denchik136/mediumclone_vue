@@ -30,14 +30,11 @@
                 placeholder="Password"
               />
             </fieldset>
-            <button class="btn btn-lg btn-primary pull-xs-right">
-              Sign up
-            </button>
             <button
-              class="btn btn-lg btn-primary pull-xs-left"
-              @click="onClick"
+              class="btn btn-lg btn-primary pull-xs-right"
+              :disabled="isSubmitting"
             >
-              Counter {{ count }}
+              Sign up
             </button>
           </form>
         </div>
@@ -50,17 +47,22 @@
 export default {
   name: 'McvRegister',
   computed: {
-    count() {
-      return this.$store.state.count
+    isSubmitting() {
+      return this.$store.state.auth.isSubmitting
     },
   },
   methods: {
     onSubmit() {
       console.log('Form submited')
-    },
-    onClick() {
-      this.$store.commit('increment')
-      console.log('this.$store.state.count')
+      this.$store
+        .dispatch('register', {
+          email: 'aa123123123123@aaa.com',
+          username: 'aa123123123123',
+          password: '123123123123',
+        })
+        .then((user) => {
+          console.log('successfully register user', user)
+        })
     },
   },
 }
