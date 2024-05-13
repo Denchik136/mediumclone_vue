@@ -8,34 +8,75 @@ const state = {
     isLoggedIn: null
 }
 
+export const mutationsTypes = {
+    registerStart: '[auth] registerStart',
+    registerSuccess: '[auth] registerSuccess',
+    registerFailure: '[auth]registerFailure',
+    loginStart: '[auth] loginStart',
+    loginSuccess: '[auth] loginSuccess',
+    loginFailure: '[auth] loginFailure'
+}
+
+export const actionTypes = {
+    register: '[auth] register',
+    login: '[auth] login'
+}
+
 const mutations = {
-    registerStart(state) {
+    [mutationsTypes.registerStart](state) {
         state.isSubmitting = true
         state.validationErrors = false
     },
-    registerSuccess(state, payload) {
+    [mutationsTypes.registerSuccess](state, payload) {
         state.isSubmitting = false
         state.currentUser = payload
         state.isLoggedIn = true
     },
-    registerFailure(state, payload) {
+    [mutationsTypes.registerFailure](state, payload) {
+        state.isSubmitting = false
+        state.validationErrors = payload
+    },
+    [mutationsTypes.loginStart](state) {
+        state.isSubmitting = true
+        state.validationErrors = false
+    },
+    [mutationsTypes.loginSuccess](state, payload) {
+        state.isSubmitting = false,
+            state.currentUser = payload,
+            state.isLoggedIn = true
+    },
+    [mutationsTypes.loginFailure](state, payload) {
         state.isSubmitting = false
         state.validationErrors = payload
     }
 }
 
 const actions = {
-    register(context, credential) {
+    [actionTypes.register](context, credential) {
         return new Promise(resolve => {
-            context.commit('registerStart')
+            context.commit(mutationsTypes.registerStart)
             authApi.register(credential)
                 .then(response => {
-                    context.commit('registerSuccess', response.data.user)
+                    context.commit(mutationsTypes.registerSuccess, response.data.user)
                     setItem('accessToken', response.data.user.token)
                     resolve(response.data.user)
                 })
                 .catch(result => {
-                    context.commit('registerFailure', result.response.data.errors)
+                    context.commit(mutationsTypes.registerFailure, result.response.data.errors)
+                })
+        })
+    },
+    [actionTypes.login](context, credential) {
+        return new Promise(resolve => {
+            context.commit(mutationsTypes.loginStart)
+            authApi.login(credential)
+                .then(response => {
+                    context.commit(mutationsTypes.loginSuccess, response.data.user)
+                    setItem('accessToken', response.data.user.token)
+                    resolve(response.data.user)
+                })
+                .catch(result => {
+                    context.commit(mutationsTypes.loginFailure, result.response.data.errors)
                 })
         })
     }

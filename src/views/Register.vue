@@ -50,7 +50,9 @@
 </template>
 
 <script>
+import {mapState} from 'vuex'
 import McvValidationErrors from '@/components/ValidatioErrors'
+import {actionTypes} from '@/store/modules/auth'
 export default {
   name: 'McvRegister',
   components: {
@@ -64,18 +66,16 @@ export default {
     }
   },
   computed: {
-    isSubmitting() {
-      return this.$store.state.auth.isSubmitting
-    },
-    validationErrors() {
-      return this.$store.state.auth.validationErrors
-    },
+    ...mapState({
+      isSubmitting: (state) => state.auth.isSubmitting,
+      validationErrors: (state) => state.auth.validationErrors,
+    }),
   },
   methods: {
     onSubmit() {
       console.log('Form submited')
       this.$store
-        .dispatch('register', {
+        .dispatch(actionTypes.register, {
           email: this.email,
           username: this.username,
           password: this.password,
