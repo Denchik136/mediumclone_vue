@@ -1,5 +1,5 @@
 <template>
-  <nav calss="navbar navbar-light">
+  <nav class="navbar navbar-light">
     <router-link class="navbar-brand" :to="{nme: 'home'}"
       >MediumClone</router-link
     >
