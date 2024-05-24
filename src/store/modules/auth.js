@@ -66,26 +66,26 @@ const mutations = {
         state.validationErrors = false
     },
     [mutationsTypes.loginSuccess](state, payload) {
-        state.isSubmitting = false,
-            state.currentUser = payload,
-            state.isLoggedIn = true
+        state.isSubmitting = false
+        state.currentUser = payload
+        state.isLoggedIn = true
     },
     [mutationsTypes.loginFailure](state, payload) {
-        state.isSubmitting = false,
-            state.validationErrors = payload
+        state.isSubmitting = false
+        state.validationErrors = payload
     },
     [mutationsTypes.getCurrentUserStart](state) {
         state.isLoading = true
     },
     [mutationsTypes.getCurrentUserSuccess](state, payload) {
-        state.isLoading = false,
-            state.isLoggedIn = true,
-            state.currentUser = payload
+        state.isLoading = false
+        state.isLoggedIn = true
+        state.currentUser = payload
     },
     [mutationsTypes.getCurrentUserFailure](state) {
-        state.isLoading = false,
-            state.isLoggedIn = false,
-            state.currentUser = null
+        state.isLoading = false
+        state.isLoggedIn = false
+        state.currentUser = null
     },
 }
 
